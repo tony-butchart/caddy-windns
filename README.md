@@ -12,12 +12,12 @@
 \<PROVIDER\> module for Caddy
 ===========================
 
-This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with \<PROVIDER\>.
+This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Microsoft Windows DNS
 
 ## Caddy module name
 
 ```
-dns.providers.provider_name
+dns.providers.windns
 ```
 
 ## Config examples
@@ -43,13 +43,13 @@ or with the Caddyfile:
 ```
 # globally
 {
-	acme_dns provider_name ...
+	acme_dns windns ...
 }
 ```
 
 ```
 # one site
 tls {
-	dns provider_name ...
+	dns windns ...
 }
 ```
