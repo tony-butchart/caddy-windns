@@ -1,4 +1,4 @@
-module github.com/caddy-dns/template
+module github.com/tony-butchart/caddy-windns
 
 go 1.18
 
