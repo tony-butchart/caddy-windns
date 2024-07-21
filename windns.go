@@ -23,10 +23,9 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 
 // Provision sets up the module. Implements caddy.Provisioner.
 func (p *Provider) Provision(ctx caddy.Context) error {
-	repl := caddy.NewReplacer()
-	p.Provider.Host = repl.ReplaceAll(p.Provider.Host, "")
-	p.Provider.User = repl.ReplaceAll(p.Provider.User, "")
-	p.Provider.Password = repl.ReplaceAll(p.Provider.Password, "")
+	p.Provider.Host = caddy.NewReplacer().ReplaceAll(p.Provider.Host, "")
+	p.Provider.User = caddy.NewReplacer().ReplaceAll(p.Provider.User, "")
+	p.Provider.Password = caddy.NewReplacer().ReplaceAll(p.Provider.Password, "")
 	return nil
 }
 
@@ -39,23 +38,44 @@ func (p *Provider) Provision(ctx caddy.Context) error {
 //	}
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
+		if d.NextArg() {
+			p.Provider.Host = d.Val()
+		}
+		if d.NextArg() {
+			return d.ArgErr()
+		}
 		for nesting := d.Nesting(); d.NextBlock(nesting); {
 			switch d.Val() {
 			case "host":
 				if p.Provider.Host != "" {
 					return d.Err("Host already set")
 				}
-				p.Provider.Host = d.Val()
+				if d.NextArg() {
+					p.Provider.Host = d.Val()
+				}
+				if d.NextArg() {
+					return d.ArgErr()
+				}
 			case "user":
 				if p.Provider.User != "" {
 					return d.Err("User already set")
 				}
-				p.Provider.User = d.Val()
+				if d.NextArg() {
+					p.Provider.User = d.Val()
+				}
+				if d.NextArg() {
+					return d.ArgErr()
+				}
 			case "password":
 				if p.Provider.Password != "" {
 					return d.Err("Password already set")
 				}
-				p.Provider.Password = d.Val()
+				if d.NextArg() {
+					p.Provider.Password = d.Val()
+				}
+				if d.NextArg() {
+					return d.ArgErr()
+				}
 			default:
 				return d.Errf("unrecognized subdirective '%s'", d.Val())
 			}
