@@ -3,7 +3,7 @@ package windns
 import (
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/caddyfile"
-	winddns "github.com/tony-butchart/libdns-windns"
+	windns "github.com/tony-butchart/libdns-windns"
 )
 
 // Provider wraps the provider implementation as a Caddy module.
